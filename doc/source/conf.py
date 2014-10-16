@@ -35,9 +35,6 @@ extensions = ['redirect',
               'yasfb',
              ]
 
-if not on_rtd:
-  extensions.append('oslosphinx')
-
 # Feed configuration for yasfb
 feed_base_url = 'http://magnetodb-specs.readthedocs.org'
 feed_author = 'OpenStack MagnetoDB Team'
