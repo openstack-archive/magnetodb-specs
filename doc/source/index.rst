@@ -5,7 +5,14 @@
 MagnetoDB Project Specifications
 ================================
 
-Kilo approved (but not implemented) specs:
+Specification template:
+
+.. toctree::
+   :maxdepth: 1
+
+   spec-template.rst
+
+Kilo approved specs:
 
 .. toctree::
    :glob:
