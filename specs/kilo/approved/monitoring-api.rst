@@ -46,8 +46,10 @@ Proposed change
 
 1. Introduce monitoring API available on the same port as data API by path
    /monitoring/...
-2. Implement REST method for list of tables /{tenant_id}/monitoring/tables.
-3. Table usage details /{tenant_id}/monitoring/tables/{table_name}.
+2. Implement REST method for getting stats for all tables in all plojects
+   /monitoring/projects.
+3. Implement REST method for getting stats for all tables in specified project
+   /monitoring/projects/{project_id}.
 
 
 ------------
@@ -69,8 +71,8 @@ No data is stored or cached.
 REST API impact
 ---------------
 
-Table usage details
--------------------
+Tables usage detailes in all projects
+-------------------------------------
 
 Method type
 ```````````
@@ -89,10 +91,10 @@ Expected error http response code(s)
 
 
 
-URL for the resource
-````````````````````
+URL for the monitoring resource
+```````````````````````````````
 
-v1/{tenant_id}/monitoring/tables/{table_name}?metrics=metric1,metric2
+v1/monitoring/projects
 
 
 Request Parameters
@@ -101,10 +103,7 @@ Request Parameters
 Parameters should be provided via URL.
 
 **metrics**
-   * Names of metrics to get
-   * Type: string
-   * Required: No
-
+    * Names of metrics to get
 
 
 Response Syntax
@@ -112,14 +111,23 @@ Response Syntax
 
 ::
 
-        {
-            "metric1": 1003432,
-            "metric2": 3000
-        }
+        [
+            {
+                "project_id": "123",
+                "tables": {
+                    "table_id": "1234",
+                    "table_name": "my_table",
+                    "usage_detailes": {
+                        "metric1": 1003432,
+                        "metric2": 3000
+                    }
+                }
+            },
+            ...
+        ]
 
-
-List tables
------------
+Tables usage detailes in specified project
+------------------------------------------
 
 Method type
 ```````````
@@ -137,51 +145,38 @@ Expected error http response code(s)
 500
 
 
-URL for the resource
-````````````````````
 
-v1/{tenant_id}/monitoring/tables
+URL for the monitoring resource
+```````````````````````````````
+
+v1/monitoring/projects/{project_id}
+
 
 Request Parameters
 ``````````````````
 
-Parameters should be provided via GET query string.
+Parameters should be provided via URL.
 
-**exclusive_start_table_name**
-   * The first table name that this operation will evaluate.
-   * Type: string
-   * Required: No
+**metrics**
+    * Names of metrics to get
 
-**limit**
-   * A maximum number of the items to return.
-   * Type: int
-   * Required: No
 
 Response Syntax
 ```````````````
 
 ::
 
-        {
-            "last_evaluated_table_name": "string",
-            "tables": [
-                {
-                    "rel": "string",
-                    "href": "url"
+        [
+            {
+                "table_id": "1234",
+                "table_name": "my_table",
+                "usage_detailes": {
+                    "metric1": 1003432,
+                    "metric2": 3000
                 }
-            ]
-        }
-
-Response Elements
-`````````````````
-
-**last_evaluated_table_name**
-   * The name of the last table in the current page of results.
-   * Type: String
-
-**tables**
-   * Array of the table info items
-   * Type: array of structs
+            },
+            ...
+        ]
 
 
 ---------------
@@ -278,4 +273,4 @@ Documentation Impact
 References
 ==========
 
-https://review.openstack.org/#/c/122330/
+None
