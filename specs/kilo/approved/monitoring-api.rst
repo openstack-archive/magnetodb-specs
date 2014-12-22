@@ -46,8 +46,8 @@ Proposed change
 
 1. Introduce monitoring API available on the same port as data API by path
    /monitoring/...
-2. Implement REST method for list of tables /{tenant_id}/monitoring/tables.
-3. Table usage details /{tenant_id}/monitoring/tables/{table_name}.
+2. Implement single method for tables detailes /monitoring.
+3. Implement filters by table_name, project_id.
 
 
 ------------
@@ -89,19 +89,24 @@ Expected error http response code(s)
 
 
 
-URL for the resource
-````````````````````
+URL for the monitoring resource
+```````````````````````````````
 
-v1/{tenant_id}/monitoring/tables/{table_name}?metrics=metric1,metric2
+v1/monitoring?project_id=my_project_id&table_name=my_table_name
 
 
 Request Parameters
 ``````````````````
 
-Parameters should be provided via URL.
+Filters should be passed as URL parameters.
 
-**metrics**
-   * Names of metrics to get
+**project_id**
+   * Returns data filtered by specified project_id
+   * Type: string
+   * Required: No
+
+**table_name**
+   * Returns data filtered by specified table_name
    * Type: string
    * Required: No
 
@@ -112,76 +117,18 @@ Response Syntax
 
 ::
 
-        {
-            "metric1": 1003432,
-            "metric2": 3000
-        }
-
-
-List tables
------------
-
-Method type
-```````````
-
-GET
-
-Normal http response code(s)
-````````````````````````````
-
-200
-
-Expected error http response code(s)
-````````````````````````````````````
-
-500
-
-
-URL for the resource
-````````````````````
-
-v1/{tenant_id}/monitoring/tables
-
-Request Parameters
-``````````````````
-
-Parameters should be provided via GET query string.
-
-**exclusive_start_table_name**
-   * The first table name that this operation will evaluate.
-   * Type: string
-   * Required: No
-
-**limit**
-   * A maximum number of the items to return.
-   * Type: int
-   * Required: No
-
-Response Syntax
-```````````````
-
-::
-
-        {
-            "last_evaluated_table_name": "string",
-            "tables": [
-                {
-                    "rel": "string",
-                    "href": "url"
+        [
+            {
+                "project_id": "123",
+                "table_id": "1234",
+                "table_name": "my_table",
+                "usage_detailes": {
+                    "metric1": 1003432,
+                    "metric2": 3000
                 }
-            ]
-        }
-
-Response Elements
-`````````````````
-
-**last_evaluated_table_name**
-   * The name of the last table in the current page of results.
-   * Type: String
-
-**tables**
-   * Array of the table info items
-   * Type: array of structs
+            },
+            ...
+        ]
 
 
 ---------------
@@ -278,4 +225,4 @@ Documentation Impact
 References
 ==========
 
-https://review.openstack.org/#/c/122330/
+None
