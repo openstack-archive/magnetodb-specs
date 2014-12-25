@@ -19,8 +19,9 @@ respectively.
 
 Some notes about using this template:
 
-* Not all blueprints need a specs
-  http://link.here.com
+* Not all blueprints need a spec. The best way to clarify it, just ask in IRC or discuss on weekly IRC meeting.
+  In order to track what is agreed, pay attention to blueprint *Definition* field. If it is Approved, feel free to
+  assign it and start work on it.
 
 * Your spec should be in ReSTructured text, like this template.
 
