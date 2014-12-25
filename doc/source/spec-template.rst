@@ -19,7 +19,7 @@ respectively.
 
 Some notes about using this template:
 
-* Not all blueprints need a specs
+* Not all blueprints need a spec
   http://link.here.com
 
 * Your spec should be in ReSTructured text, like this template.
